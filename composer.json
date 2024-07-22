@@ -1,0 +1,15 @@
+{
+  "name": "firebase/php-jwt",
+  "autoload": {
+    "psr-4": {
+      "Firebase\\PhpJwt\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "hady-awayda",
+      "email": "hady.awayda@gmail.com"
+    }
+  ],
+  "require": {}
+}
