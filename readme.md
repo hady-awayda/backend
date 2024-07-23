@@ -1,3 +1,7 @@
+### Setup
+
+Clone this submodule and modify documentroot in apache config to point to the root of this repo, then import the recipe-app.sql file into phpmyadmin, and finally run xampp.
+
 ### API Documentation
 
 All GET routes can accept the following optional paremeter:
@@ -33,15 +37,15 @@ Authentication:
 - POST /api/auth/login - Validates user credentials and returns new JWT token with user data and token expiry
 - POST /api/auth/register - Registers user account and returns new JWT token with user data and token expiry
 
-Comments: (Optional)
+Comments:
 
-- GET /api/comments - Get all comments
-- GET /api/comments?id - Get a single comment by ID
-- GET /api/comments?user_id - Get all comments by user ID
-- GET /api/comments?recipe_id - Get all comments by recipe ID
-- GET /api/comments?recipe_id&user_id - Get all comments of user ID for specific recipe ID (useless, only useful to show a user's comment first on a recipe's page)
-- GET /api/comments?recipe_id&favorite - Get all comments where users have favorited the recipe (SELECT c.\* FROM comments c JOIN favorites f ON c.recipe_id = f.recipe_id JOIN users u ON c.user_id = u.id WHERE f.recipe_id = $recipe_id)
+- GET /api/comments?recipe_id - Get all comments with username by recipe ID
 
 ### Database Schema
 
 Can be found at the following URL: https://dbdiagram.io/d/Recipe-App-669e7a908b4bb5230e04d9ea
+
+<!-- - GET /api/comments?id - Get a single comment by ID
+- GET /api/comments?user_id - Get all comments by user ID
+- GET /api/comments?recipe_id&user_id - Get all comments of user ID for specific recipe ID (useless, only useful to show a user's comment first on a recipe's page)
+- GET /api/comments?recipe_id&favorite - Get all comments where users have favorited the recipe (SELECT c.\* FROM comments c JOIN favorites f ON c.recipe_id = f.recipe_id JOIN users u ON c.user_id = u.id WHERE f.recipe_id = $recipe_id) -->

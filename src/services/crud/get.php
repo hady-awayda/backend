@@ -8,7 +8,14 @@ class selectService {
             die("Invalid column name");
         }
 
-		$query = selectModel::select($table, $param);
+		if ($table === "recipes") {
+			$query = selectModel::selectRecipe($param);
+		} elseif ($table === "comments") {
+			$query = selectModel::selectAllComments();
+		} else {
+			$query = selectModel::select($table, $param);
+		}
+
 		$stmt = $conn->prepare($query);
 		
 		$stmt -> bind_param('i', $value);
@@ -31,7 +38,7 @@ class selectService {
 
 	public static function selectAll($conn, $table, $limit = null) {
 		if ($table === "recipes") {
-			$query = selectModel::selectWithUsername($table);
+			$query = selectModel::selectAllRecipes();
 		} else {
 			$query = selectModel::selectAll($table);
 		}

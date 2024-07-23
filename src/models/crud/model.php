@@ -1,7 +1,7 @@
 <?php
 
 class selectModel {
-    private static $allowedColumns = ['id', 'name', 'id', 'name', 'user_id', 'id', 'user_id', 'recipe_id', 'id', 'user_id', 'recipe_id', 'id', 'name', 'recipe_id', 'tag_id'];
+    private static $allowedColumns = ['id', 'name', 'user_id', 'recipe_id', 'name', 'tag_id'];
     private static $allowedTables = ['users', 'recipes', 'comments', 'favorites', 'tags', 'recipe_tags'];
 
     public static function isValidColumn($column) {
@@ -24,9 +24,22 @@ class selectModel {
 		return "SELECT * FROM $table WHERE $param = ?;";
 	}
 
-    public static function selectWithUsername($table) {
-        return "SELECT t.name, t.ingredients, t.steps, t.created_at, u.name AS username FROM $table t JOIN users u ON t.user_id = u.id;";
+    public static function selectAllRecipes() {
+        return "SELECT t.id, t.name, t.ingredients, t.steps, t.created_at as createdDate, u.name AS username FROM recipes t JOIN users u ON t.user_id = u.id;";
     }
+
+    public static function selectRecipe($param) {
+        return "SELECT t.id, t.name, t.ingredients, t.steps, t.created_at as createdDate, u.name AS username FROM recipes t JOIN users u ON t.user_id = u.id WHERE t.$param = ?;";
+    }
+
+    public static function selectAllComments() {
+        return "SELECT c.id, c.title, c.description, c.rating, c.created_at AS createdDate, u.name AS username FROM comments c JOIN users u ON c.user_id = u.id WHERE c.recipe_id = ?;";
+    }
+
+    // public static function selectComment($param) {
+    //     return "SELECT t.id, t.name, t.ingredients, t.steps, t.created_at as createdDate, u.name AS username FROM comments t JOIN users u ON t.user_id = u.id WHERE t.$param = ?;";
+    // }
+
     
     public static function insert($table, $data) {
         if (!is_array($data)) {
