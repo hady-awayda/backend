@@ -11,36 +11,36 @@ $table_name = explode('/', $requestUri)[2];
 
 $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
 
-$publicEndpoints = [
-    'flights',
-    'hotels',
-    'taxis',
-    'cities'
-];
+// $publicEndpoints = [
+//     'flights',
+//     'hotels',
+//     'taxis',
+//     'cities'
+// ];
 
-$userSpecificEndpoints = [
-    'users',
-    'flight_bookings',
-    'hotel_bookings',
-    'taxi_bookings'
-];
+// $userSpecificEndpoints = [
+//     'users',
+//     'flight_bookings',
+//     'hotel_bookings',
+//     'taxi_bookings'
+// ];
 
-$adminEndpoints = [
-    'users',
-    'airports'
-];
+// $adminEndpoints = [
+//     'users',
+//     'airports'
+// ];
 
-$authorized = false;
+// $authorized = false;
 
-if (in_array($table_name, $publicEndpoints)) {
-    $authorized = true;
-} elseif (authorize($authHeader, 'admin')) {
-    $authorized = true;
-} elseif (in_array($table_name, $userSpecificEndpoints)) {
-    if (isset($queryParams['id']) && isUserAuthorized($authHeader, $queryParams['id'])) {
-        $authorized = true;
-    }
-}
+// if (in_array($table_name, $publicEndpoints)) {
+//     $authorized = true;
+// } elseif (authorize($authHeader, 'admin')) {
+//     $authorized = true;
+// } elseif (in_array($table_name, $userSpecificEndpoints)) {
+//     if (isset($queryParams['id']) && isUserAuthorized($authHeader, $queryParams['id'])) {
+//         $authorized = true;
+//     }
+// }
 
 $authorized = true;
 

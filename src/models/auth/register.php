@@ -9,7 +9,7 @@ class RegisterModel {
     }
 
 	public function getUser($email, $phone) {
-        $stmt = $this->db->prepare("SELECT id_user, name, email, phone_number, password, role FROM users WHERE email = ? OR phone_number = ?");
+        $stmt = $this->db->prepare("SELECT id, name, email, phone_number, password, role FROM users WHERE email = ? OR phone_number = ?");
 
         $stmt->bind_param("ss", $email, $phone);
         $stmt->execute();
@@ -22,7 +22,7 @@ class RegisterModel {
     }
 
     public function createUser($name, $email, $phone, $password) {
-        $role = 'customer';
+        $role = 'user';
 
         $stmt = $this->db->prepare("INSERT INTO users (name, email, phone_number, password, role) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssss", $name, $email, $phone, $password, $role);
@@ -32,7 +32,7 @@ class RegisterModel {
             $stmt->close();
 
             return [
-                "id_user" => $userId,
+                "id" => $userId,
                 "name" => $name,
                 "email" => $email,
                 "role" => $role

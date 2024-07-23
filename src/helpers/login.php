@@ -1,6 +1,6 @@
 <?php
 require_once 'src/helpers/loadEnv.php';
-require_once 'assets/jwt/JWT.php';
+require 'vendor/autoload.php';
 loadEnv('.env');
 
 use Firebase\JWT\JWT;
@@ -13,7 +13,7 @@ class LoginHelper {
             "aud" => "users",
             "iat" => time(),
             "exp" => time() + (60 * 60 * 24 * 30),
-            "user_id" => $user["id_user"],
+            "id" => $user["id"],
             "email" => $user["email"],
             "role" => $user["role"],
         ];

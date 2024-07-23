@@ -9,7 +9,7 @@ class LoginModel {
     }
 
     public function getUserByEmail($email) {
-        $stmt = $this->db->prepare("SELECT id_user, name, password, email, role FROM users WHERE email = ?");
+        $stmt = $this->db->prepare("SELECT id, name, password, email, role FROM users WHERE email = ?");
         
         // Bind the username parameter
         $stmt->bind_param("s", $email);

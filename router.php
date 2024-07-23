@@ -18,8 +18,7 @@ $allowedEndpoints = [
     'recipes',
     'comments',
     'favorites',
-    'tags',
-    'recipe_tags'
+    'tags'
 ];
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -29,38 +28,27 @@ if (strpos($requestUri, $apiBasePath) === 0) {
     $endpoint = substr($requestUri, strlen($apiBasePath));
     
     if (in_array($endpoint, $allowedEndpoints)) {
-        if ($endpoint === 'openai' && $requestMethod === 'GET') {
-            require __DIR__ . '/src/controllers/ai/openai.php';
-        } elseif ($endpoint === 'auth/login' || $endpoint === 'auth/register') {
-            if ($requestMethod === 'POST') {
-                if ($endpoint === 'auth/login') {
-                    require __DIR__ . '/src/controllers/auth/login.php';
-                } else {
-                    require __DIR__ . '/src/controllers/auth/register.php';
-                }
-            } else {
-                header("HTTP/1.0 405 Method Not Allowed");
-                echo "405 Method Not Allowed for authentication endpoints";
-            }
+        if ($endpoint === 'auth/login' && $requestMethod === 'POST') {
+            require __DIR__ . '/src/controllers/auth/login.php';
+        } elseif ($endpoint === 'auth/register' && $requestMethod === 'POST') {
+            require __DIR__ . '/src/controllers/auth/register.php';
+        } elseif (($endpoint === 'auth/register' || $endpoint === 'auth/login') && $requestMethod !== 'POST') {
+            header("HTTP/1.0 405 Method Not Allowed");
+            echo "405 Method Not Allowed for authentication endpoints";
+        } elseif ($requestMethod === 'GET') {
+            require __DIR__ . '/src/controllers/crud/get.php';
+        } elseif ($requestMethod === 'POST') {
+            // require __DIR__ . '/src/controllers/crud/post.php';
+        } elseif ($requestMethod === 'PUT') {
+            require __DIR__ . '/src/controllers/crud/put.php';
+        } elseif ($requestMethod === 'DELETE') {
+            require __DIR__ . '/src/controllers/crud/delete.php';
         } else {
-            if ($requestMethod === 'GET') {
-                require __DIR__ . '/src/controllers/crud/get.php';
-            } elseif ($requestMethod === 'POST') {
-                require __DIR__ . '/src/controllers/crud/post.php';
-            } elseif ($requestMethod === 'PUT') {
-                require __DIR__ . '/src/controllers/crud/put.php';
-            } elseif ($requestMethod === 'DELETE') {
-                require __DIR__ . '/src/controllers/crud/delete.php';
-            } else {
-                header("HTTP/1.0 405 Method Not Allowed");
-                echo "405 Method Not Allowed";
-            }
+            header("HTTP/1.0 405 Method Not Allowed");
+            echo "405 Method Not Allowed";
         }
     } else {
         header("HTTP/1.0 404 Not Found");
         echo "404 Not Found";
     }
-} else {
-    header("HTTP/1.0 404 Not Found");
-    echo "404 Not Found";
 }
