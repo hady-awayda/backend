@@ -23,6 +23,10 @@ class selectModel {
         
 		return "SELECT * FROM $table WHERE $param = ?;";
 	}
+
+    public static function selectWithUsername($table) {
+        return "SELECT t.name, t.ingredients, t.steps, t.created_at, u.name AS username FROM $table t JOIN users u ON t.user_id = u.id;";
+    }
     
     public static function insert($table, $data) {
         if (!is_array($data)) {

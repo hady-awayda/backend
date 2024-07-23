@@ -30,7 +30,11 @@ class selectService {
 	}
 
 	public static function selectAll($conn, $table, $limit = null) {
-		$query = selectModel::selectAll($table);
+		if ($table === "recipes") {
+			$query = selectModel::selectWithUsername($table);
+		} else {
+			$query = selectModel::selectAll($table);
+		}
 		
 		$stmt = $conn->prepare($query);
 		$stmt->execute();
@@ -48,42 +52,4 @@ class selectService {
 			echo json_encode(["message" => "Items not found"]);
 		}
 	}
-/////////////////////////////////
-	public static function insert($conn, $table_name, $data) {
-        $columns = implode(", ", array_keys($data));
-        $values = implode(", ", array_map(function($value) use ($conn) {
-            return "'" . mysqli_real_escape_string($conn, $value) . "'";
-        }, array_values($data)));
-        
-        $sql = "INSERT INTO $table_name ($columns) VALUES ($values)";
-        
-        if (mysqli_query($conn, $sql)) {
-            echo json_encode(["message" => "Record inserted successfully"]);
-        } else {
-			http_response_code(404);
-            echo json_encode(["message" => "Error inserting record: " . mysqli_error($conn)]);
-        }
-    }
-///////////////////
-	public static function delete($conn, $table, $param, $value) {
-		if (!selectModel::isValidColumn($param)) {
-			die("Invalid column name");
-		}
-	
-		$query = selectModel::delete($table, $param);
-		$stmt = $conn->prepare($query);
-	
-		$param == 'id' ? $stmt -> bind_param('i', $value) : $stmt -> bind_param('s', $value);
-	
-		$stmt->execute();
-	
-		if ($stmt->affected_rows > 0) {
-			echo json_encode(["message" => "Record deleted successfully"]);
-		} else {
-			http_response_code(404);
-			echo json_encode(["message" => "Item not found or could not be deleted"]);
-		}
-	}
-	
-	
 }
