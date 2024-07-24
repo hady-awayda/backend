@@ -1,7 +1,7 @@
 <?php
 require_once 'src/services/auth/authorization.php';
-require "src/helpers/connection.php";
 require "src/services/crud/get.php";
+require "src/helpers/connection.php";
 
 $conn = dbConnect();
 $requestUri = $_SERVER['REQUEST_URI'];

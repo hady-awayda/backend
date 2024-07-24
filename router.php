@@ -35,6 +35,12 @@ if (strpos($requestUri, $apiBasePath) === 0) {
         } elseif (($endpoint === 'auth/register' || $endpoint === 'auth/login') && $requestMethod !== 'POST') {
             header("HTTP/1.0 405 Method Not Allowed");
             echo "405 Method Not Allowed for authentication endpoints";
+        } elseif ($requestMethod === 'POST' && $endpoint === "favorites") {
+            require __DIR__ . '/src/controllers/crud/favorite.php';
+        } elseif ($requestMethod === 'POST' && $endpoint === "recipes") {
+            require __DIR__ . '/src/controllers/crud/create_recipe.php';
+        } elseif ($requestMethod === 'POST' && $endpoint === "comments") {
+            require __DIR__ . '/src/controllers/crud/comment_post.php';
         } elseif ($requestMethod === 'GET') {
             require __DIR__ . '/src/controllers/crud/get.php';
         } elseif ($requestMethod === 'POST') {

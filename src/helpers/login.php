@@ -16,6 +16,7 @@ class LoginHelper {
             "id" => $user["id"],
             "email" => $user["email"],
             "role" => $user["role"],
+            "name" => $user["name"]
         ];
 
         return JWT::encode($payload, $secretKey, 'HS256');
